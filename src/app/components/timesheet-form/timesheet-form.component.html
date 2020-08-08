@@ -1,0 +1,48 @@
+<pre>Value {{ myForm.value | json }}</pre>
+<hr />
+<form [formGroup]="myForm">
+
+    <input 
+            placeholder="employee"
+            formConrolName="employee"
+    />
+
+    <div formArrayName="projects">
+        <div *ngFor="let project of projectForms.controls; let i=index" 
+             [formGroupName]="i"
+        >
+                <input 
+                       placeholder="projectId"
+                       formControlName="projectId"
+                />
+                <input 
+                       placeholder="projectTitle"
+                       formControlName="projectTitle"
+                />
+
+                <!-- Nested Form Array for Entries-->
+                <div formArrayName="entries">
+                    <div *ngFor="let entry of project.get('entries').controls; let j=index"
+                         [formGroupName]="j">
+                        <input placeholder="hours go here"
+                               formControlName="hours"
+                        />
+                    </div>
+                </div>
+                <!-- <input 
+                       placeholder="entries"
+                       formControlName="entries"
+                /> -->
+
+            <button type="button"
+                    color="secondary"
+                    (click)="deleteProject(i)"
+            >Delete</button>
+        </div>
+    </div>
+
+    <button type="button"
+            color="primary"
+            (click)="addProject()"
+    >Add Project</button>
+</form>
